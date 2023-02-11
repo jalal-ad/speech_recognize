@@ -1,4 +1,5 @@
 import sqlite3
+import json
 from datetime import datetime
 
 class SqliteObj():
@@ -36,4 +37,13 @@ class SqliteObj():
         user_id = data['userid']
         file_dir = f'\\src\\db\\received_files\\{user_id}\\' + data['filename']
         self.cursor_obj.execute(query, (user_id,current_time,data['res_text'],file_dir))
+
+    def read(self):
+        # to select all column we will use
+        query = '''SELECT * FROM test'''
+        self.cursor_obj.execute(query)
+        output = self.cursor_obj.fetchall()
+        for row in output:
+            print(row)
+        return output
 

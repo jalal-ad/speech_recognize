@@ -8,35 +8,42 @@ import pathlib
 file_path = str( pathlib.Path(__file__).absolute().parent )
 
 Sqlite.sqlite.create_table('test')
-
-app = FastAPI()
+# Sqlite.sqlite.cursor_obj.close()
+# Sqlite.sqlite.sqlite_connection.close()
 
 user_id = 12
+app = FastAPI()
+
 @app.post("/upload")
-def upload(file: UploadFile = File(...)):
-    try:
-        result_text = AudioRecognize.recognizer(file).run('speech1')
+def upload(username: str, password: str,file: UploadFile = File(...)):
+    if username=='admin' and password=='Admin@123':
+        try:
+            # get text from audio file
+            result_text = AudioRecognize.recognizer(file).run('speech1')
 
-    except Exception as e:
-        return {"message": f"There was an error uploading the file: {e}"}
-    finally:
-        file.file.close()
-        sleep(1)
+            # insert data into db
+            data={
+                'userid': user_id,
+                'res_text': result_text,
+                'filename':file.filename
+            }
+            Sqlite.sqlite.insert(data)
+            Sqlite.sqlite.sqlite_connection.commit()
 
-        # move uploaded file to user directory
-        dest_dir = file_path + f'\\src\\db\\received_files\\{user_id}\\' + file.filename
-        shutil.move(file.filename, dest_dir)
+        except Exception as e:
+            return {"message": f"There was an error uploading the file: {e}"}
+        finally:
+            file.file.close()
+            sleep(1)
 
-        # insert data into db
-        data={
-            'userid': user_id,
-            'res_text': result_text,
-            'filename':file.filename
-        }
-        Sqlite.sqlite.insert(data)
-        
-        Sqlite.sqlite.sqlite_connection.commit()
-        Sqlite.sqlite.cursor_obj.close()
-        Sqlite.sqlite.sqlite_connection.close()
+            # move uploaded file to user directory
+            dest_dir = file_path + f'\\src\\db\\received_files\\{user_id}\\' + file.filename
+            shutil.move(file.filename, dest_dir)
 
-    return {"message": f"Successfully uploaded {file.filename}, text: {result_text}"}
+        return {"message": f"Successfully uploaded {file.filename}, text: {result_text}"}
+
+@app.get("/history")
+def get_history(username: str, password: str):
+    if username=='admin' and password=='Admin@123':
+        history = Sqlite.sqlite.read()
+        return history
