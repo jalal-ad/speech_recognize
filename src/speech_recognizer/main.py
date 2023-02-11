@@ -17,7 +17,6 @@ class AudioProc():
     def run(self, dest_file_name=None):
         # save uploaded file
         with open(self.entry_file.filename, 'wb') as f:
-            dest_dir = file_path + r'\src\db\received_files\12\\' + self.entry_file.filename
             shutil.copyfileobj(self.entry_file.file, f)
         
 
