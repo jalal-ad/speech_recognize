@@ -60,3 +60,9 @@ class SqliteObj():
         self.sqlite_connection.commit()
         print('done')
 
+    def delete_data(self, data_id):
+        query = f'''DELETE FROM test WHERE id = {data_id}'''
+        self.cursor_obj.execute(query)
+        self.sqlite_connection.commit()
+        print('done')
+

@@ -52,14 +52,21 @@ def get_history(username: str, password: str):
 
 # search in text
 @app.get("/history/search")
-def get_history(username: str, password: str, query: str):
+def search_history(username: str, password: str, query: str):
     if username=='admin' and password=='Admin@123':
         search_res = Sqlite.sqlite.search(query)
         return search_res
 
 # modify data
 @app.put("/update")
-def get_history(username: str, password: str, updtxt: str, dataid: int):
+def update(username: str, password: str, updtxt: str, dataid: int):
     if username=='admin' and password=='Admin@123':
         Sqlite.sqlite.modify_data(updtxt,dataid)
         return {"message": f"Successfully updated text: {updtxt}, data with id: {dataid}"}
+
+# delete data
+@app.delete("/delete")
+def delete(username: str, password: str, dataid: int):
+    if username=='admin' and password=='Admin@123':
+        Sqlite.sqlite.delete_data(dataid)
+        return {"message": f"Successfully deleted data with id: {dataid}"}
