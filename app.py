@@ -41,7 +41,7 @@ def upload(username: str, password: str,file: UploadFile = File(...)):
             dest_dir = file_path + f'\\src\\db\\received_files\\{user_id}\\' + file.filename
             shutil.move(file.filename, dest_dir)
 
-        return {"message": f"Successfully uploaded {file.filename}, text: {result_text}"}
+        return {"message": f"Successfully uploaded {file.filename}, extracted text: {result_text}"}
 
 # see last 20 user request history
 @app.get("/history")
@@ -52,7 +52,14 @@ def get_history(username: str, password: str):
 
 # search in text
 @app.get("/history/search")
-def get_history(username: str, password: str, search_pattern: str):
+def get_history(username: str, password: str, query: str):
     if username=='admin' and password=='Admin@123':
-        history = Sqlite.sqlite.search(search_pattern)
-        return history
+        search_res = Sqlite.sqlite.search(query)
+        return search_res
+
+# modify data
+@app.put("/update")
+def get_history(username: str, password: str, updtxt: str, dataid: int):
+    if username=='admin' and password=='Admin@123':
+        Sqlite.sqlite.modify_data(updtxt,dataid)
+        return {"message": f"Successfully updated text: {updtxt}, data with id: {dataid}"}

@@ -46,11 +46,17 @@ class SqliteObj():
             print(row)
         return output
 
-    def search(self,search_pattern):
-        query = f'''SELECT * FROM test WHERE userid = 12 AND ExtractedText LIKE "%{search_pattern}%" '''
+    def search(self,search_query):
+        query = f'''SELECT * FROM test WHERE userid = 12 AND ExtractedText LIKE "%{search_query}%" '''
         self.cursor_obj.execute(query)
         output = self.cursor_obj.fetchall()
         for row in output:
             print(row)
         return output
+
+    def modify_data(self, update_txt, data_id):
+        query = f'''UPDATE test SET ExtractedText = "{update_txt}" WHERE id = {data_id}'''
+        self.cursor_obj.execute(query)
+        self.sqlite_connection.commit()
+        print('done')
 
