@@ -14,6 +14,7 @@ Sqlite.sqlite.create_table('test')
 user_id = 12
 app = FastAPI()
 
+# upload audio file with mp3 format & save recognized text on db
 @app.post("/upload")
 def upload(username: str, password: str,file: UploadFile = File(...)):
     if username=='admin' and password=='Admin@123':
@@ -42,8 +43,16 @@ def upload(username: str, password: str,file: UploadFile = File(...)):
 
         return {"message": f"Successfully uploaded {file.filename}, text: {result_text}"}
 
+# see last 20 user request history
 @app.get("/history")
 def get_history(username: str, password: str):
     if username=='admin' and password=='Admin@123':
         history = Sqlite.sqlite.read()
+        return history
+
+# search in text
+@app.get("/history/search")
+def get_history(username: str, password: str, search_pattern: str):
+    if username=='admin' and password=='Admin@123':
+        history = Sqlite.sqlite.search(search_pattern)
         return history

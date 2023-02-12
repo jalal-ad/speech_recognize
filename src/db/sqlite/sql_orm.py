@@ -39,8 +39,15 @@ class SqliteObj():
         self.cursor_obj.execute(query, (user_id,current_time,data['res_text'],file_dir))
 
     def read(self):
-        # to select all column we will use
-        query = '''SELECT * FROM test'''
+        query = '''SELECT * FROM test WHERE userid = 12 '''
+        self.cursor_obj.execute(query)
+        output = self.cursor_obj.fetchmany(20)
+        for row in output:
+            print(row)
+        return output
+
+    def search(self,search_pattern):
+        query = f'''SELECT * FROM test WHERE userid = 12 AND ExtractedText LIKE "%{search_pattern}%" '''
         self.cursor_obj.execute(query)
         output = self.cursor_obj.fetchall()
         for row in output:
