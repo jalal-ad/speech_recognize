@@ -1,11 +1,6 @@
 requests
-black
-pylint
-pytest
-rinohtype
-pika
-python-logstash
 python-dotenv
-sqlalchemy
-sshtunnel
-pymongo
+uvicorn
+fastapi
+vosk
+python-multipart
