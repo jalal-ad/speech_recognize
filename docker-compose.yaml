@@ -1,38 +1,10 @@
 version: '2.1'
 services:
-  project_name_example:
+  speech_recognizer:
     build: .
     mem_limit: 512m
     mem_reservation: 128M
     environment:
-      rabbitmq: ${rabbitmq}
-      ssh: ${ssh}
-      mongo: ${mongo}
-      mysql: ${mysql}
-      logstash: ${logstash}
-      # driver_path: ${driver_path}
-      proxy_need: ${proxy_need}
-      change_ip: ${change_ip}
-      server_ip: ${server_ip}
-      content_type: ${content_type}
-      routing_keys: ${routing_keys}
-      rabbitmq_host: ${rabbitmq_host}
-      rabbitmq_port: ${rabbitmq_port}
-      rabbitmq_virtual_host: ${rabbitmq_virtual_host}
-      rabbitmq_username: ${rabbitmq_username}
-      rabbitmq_password: ${rabbitmq_password}
-      rabbitmq_routing_keys: ${rabbitmq_routing_keys}
-      rabbitmq_thread: ${rabbitmq_thread}
-      mongo_host: ${mongo_host}
-      mongo_port: ${mongo_port}
-      mongo_username: ${mongo_username}
-      mongo_password: ${mongo_password}
-      database: ${database}
-      collection: ${collection}
-      proxy_host: ${proxy_host}
-      proxy_port: ${proxy_port}
-      logstash_host: ${logstash_host}
-      logstash_port: ${logstash_port}
       logger_name: ${logger_name}      
       project: ${project}
 
